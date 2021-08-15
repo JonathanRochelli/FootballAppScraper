@@ -8,9 +8,12 @@ client = MongoClient("localhost:27017")
 db=client["football-app-db"]
 countries = db["Countries"]
 
+with open('key.txt') as f:
+    key = f.readline()
+
 # Rapid API account configuration
 headers = {
-    'x-rapidapi-key': "e957d522eamshd2baa32faa95c3dp19d127jsna00de7e5175c",
+    'x-rapidapi-key': key,
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
 }
 
