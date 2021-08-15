@@ -4,7 +4,7 @@ from time import strftime
 import requests
 import json
 
-with open('conf.json') as f:
+with open('conf/conf.json') as f:
     conf = json.load(f)
 
 # MongoDb configuration
@@ -14,9 +14,12 @@ countries = db["Countries"] # Countries collection
 leagues = db["Leagues"] # Leagues collection
 fixtures = db["Fixtures"] # Fixtures collection
 
+with open('conf/key.json') as f:
+    key = json.load(f)
+
 # Rapid API account configuration
 headers = {
-    'x-rapidapi-key': conf["key"],
+    'x-rapidapi-key': key["key"],
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
 }
 
