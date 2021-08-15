@@ -1,4 +1,4 @@
-# Football APP
+# Football APP API Scraper
 
 The main objective of the repository is to set up a development architecture for the API [football-api](https://rapidapi.com/api-sports/api/api-football) available on [Rapid API](https://rapidapi.com/). This architecture allows us to copy the data available on the API in a local database. So, you can use the API without pay. Only by using the Basic Plan. The data need to be updated by yourself, but in a development architecture the data do not need to be updated in real-time.
 
@@ -15,7 +15,7 @@ The Python script allows us to collect the data from the API and save them in Mo
 The data are available in unlimited amounts because they are saved in a local database. So the data are available without subscription.
 **The usage is unlimited!!**
 
-## Intall dependencies
+## Install dependencies
 
 ```
 pip install -r requirements.txt
