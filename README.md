@@ -17,9 +17,9 @@ The data are available in unlimited amounts because they are saved in a local da
 
 ## Intall dependencies
 
-'''
+```
 pip install -r requirements.txt
-'''
+```
 
 ## How to use?
 
