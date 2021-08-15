@@ -27,7 +27,7 @@ pip install -r requirements.txt
 2. Subscribe to the API [football-api](https://rapidapi.com/api-sports/api/api-football)
 3. Add the Rapid API key in a file ./key.txt
 4. Set up a MongoDB database on **localhost:27017**
-5. Create the collections ( Countries, Leagues )
+5. Create the collections ( Countries, Leagues, Fixtures )
 6. Activate the virtual environment ( [Python3 Venv Documentation](https://docs.python.org/fr/3/library/venv.html) )
 7. Install the dependencies
 8. Run the application
