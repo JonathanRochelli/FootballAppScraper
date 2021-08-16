@@ -30,7 +30,7 @@ football_api_countries = json.loads(requests.request("GET", url, headers=headers
 # Remove all documents in collection
 countries.delete_many({})
 # Insert countries in MongoDB database
-result = countries.insert_many(football_api_countries)
+result = countries.insert_one(football_api_countries)
 pprint(result)
 
 ############################### Leagues ###############################
@@ -40,7 +40,7 @@ football_api_leagues = json.loads(requests.request("GET", url, headers=headers).
 # Remove all documents in collection
 leagues.delete_many({})
 # Insert leagues in MongoDB database
-result = leagues.insert_many(football_api_leagues)
+result = leagues.insert_one(football_api_leagues)
 pprint(result)
 
 ############################### Fixtures ###############################
@@ -51,5 +51,5 @@ football_api_fixtures = json.loads(requests.request("GET", url, headers=headers,
 # Remove all documents in collection
 fixtures.delete_many({})
 # Insert fixtures in MongoDB database
-result = fixtures.insert_many(football_api_fixtures)
+result = fixtures.insert_one(football_api_fixtures)
 pprint(result)
