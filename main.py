@@ -3,6 +3,7 @@ from pprint import pprint
 from time import strftime
 import requests
 import json
+from termcolor import colored
 
 with open('conf/conf.json') as f:
     conf = json.load(f)
@@ -36,8 +37,8 @@ football_api_countries = json.loads(requests.request("GET", url, headers=headers
 football_api_countries = [country for country in football_api_countries["response"] if country["name"] in countries]
 # Insert countries in MongoDB database
 result = countries_col.insert_many(football_api_countries)
-if result : print("Countries successfully inserted") 
-else : print("Error : countries insertion failed")
+if result : print(colored('Countries successfully inserted', 'green'))
+else : print(colored('Error : countries insertion failed', 'red'))
 
 ############################### Leagues ###############################
 # Remove all documents in collection
@@ -49,8 +50,8 @@ for country in countries:
     football_api_leagues = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
     # Insert leagues in MongoDB database
     result = leagues_col.insert_many(football_api_leagues["response"])
-    if result : print(f"{country} leagues successfully inserted") 
-    else : print(f"Error : {country} leagues insertion failed")
+    if result : print(colored(f'{country} leagues successfully inserted', 'green')) 
+    else : print(colored(f'Error : {country} leagues insertion failed'), 'red')
 
 ############################### Fixtures ###############################
 # Get fixtures from football-api
