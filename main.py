@@ -78,3 +78,5 @@ fixtures = [f for f in football_api_fixtures["response"] if f["league"]["id"] in
 result = fixtures_col.insert_many(fixtures)
 if result : print(colored(f'{next_sunday} - Fixtures successfully inserted', 'green')) 
 else : print(colored(f'Error : {next_sunday} - Fixtures insertion failed'), 'red')
+
+print(f'{request} requests was executed')
