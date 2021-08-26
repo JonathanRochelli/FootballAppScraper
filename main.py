@@ -24,14 +24,18 @@ headers = {
 }
 
 ############################### Countries ###############################
+# Countries list
+countries_list = ["France", "Italy", "Portugal", "Belgium", "Spain", "England", "Germany", "World"]
 # Get countries from football-api
 url = "https://api-football-v1.p.rapidapi.com/v3/countries"
 football_api_countries = json.loads(requests.request("GET", url, headers=headers).text)
+# Filter countries
+football_api_countries = [country for country in football_api_countries["response"] if country["name"] in countries_list]
 # Remove all documents in collection
 countries.delete_many({})
 # Insert countries in MongoDB database
-result = countries.insert_one(football_api_countries)
-pprint(result)
+for country in football_api_countries:
+    result = countries.insert_one(country)
 
 ############################### Leagues ###############################
 # Get leagues from football-api
