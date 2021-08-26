@@ -10,9 +10,9 @@ with open('conf/conf.json') as f:
 # MongoDb configuration
 client = MongoClient("{}:{}".format(conf["host"], conf["port"]))
 db=client[conf["db"]]
-countries = db["Countries"] # Countries collection
-leagues = db["Leagues"] # Leagues collection
-fixtures = db["Fixtures"] # Fixtures collection
+countries_col = db["Countries"] # Countries collection
+leagues_col = db["Leagues"] # Leagues collection
+fixtures_col = db["Fixtures"] # Fixtures collection
 
 with open('conf/key.json') as f:
     key = json.load(f)
@@ -23,29 +23,34 @@ headers = {
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
 }
 
-############################### Countries ###############################
 # Countries list
-countries_list = ["France", "Italy", "Portugal", "Belgium", "Spain", "England", "Germany", "World"]
+countries = ["France", "Italy", "Portugal", "Belgium", "Spain", "England", "Germany", "World"]
+
+############################### Countries ###############################
+# Remove all documents in collection
+countries_col.delete_many({})
 # Get countries from football-api
 url = "https://api-football-v1.p.rapidapi.com/v3/countries"
 football_api_countries = json.loads(requests.request("GET", url, headers=headers).text)
 # Filter countries
-football_api_countries = [country for country in football_api_countries["response"] if country["name"] in countries_list]
-# Remove all documents in collection
-countries.delete_many({})
+football_api_countries = [country for country in football_api_countries["response"] if country["name"] in countries]
 # Insert countries in MongoDB database
-for country in football_api_countries:
-    result = countries.insert_one(country)
+result = countries_col.insert_many(football_api_countries)
+if result : print("Countries successfully inserted") 
+else : print("Error : countries insertion failed")
 
 ############################### Leagues ###############################
+# Remove all documents in collection
+leagues_col.delete_many({})
 # Get leagues from football-api
 url = "https://api-football-v1.p.rapidapi.com/v3/leagues"
-football_api_leagues = json.loads(requests.request("GET", url, headers=headers).text)
-# Remove all documents in collection
-leagues.delete_many({})
-# Insert leagues in MongoDB database
-result = leagues.insert_one(football_api_leagues)
-pprint(result)
+for country in countries:
+    querystring = {"country": country}
+    football_api_leagues = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
+    # Insert leagues in MongoDB database
+    result = leagues_col.insert_many(football_api_leagues["response"])
+    if result : print(f"{country} leagues successfully inserted") 
+    else : print(f"Error : {country} leagues insertion failed")
 
 ############################### Fixtures ###############################
 # Get fixtures from football-api
@@ -53,7 +58,7 @@ url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
 querystring = {"date":strftime("%Y-%m-%d")}
 football_api_fixtures = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
 # Remove all documents in collection
-fixtures.delete_many({})
+fixtures_col.delete_many({})
 # Insert fixtures in MongoDB database
-result = fixtures.insert_one(football_api_fixtures)
+result = fixtures_col.insert_one(football_api_fixtures)
 pprint(result)
